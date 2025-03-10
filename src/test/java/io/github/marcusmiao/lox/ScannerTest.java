@@ -1,4 +1,4 @@
-package io.github.marcusmiao;
+package io.github.marcusmiao.lox;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
