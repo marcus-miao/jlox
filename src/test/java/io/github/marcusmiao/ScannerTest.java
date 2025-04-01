@@ -6,9 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ScannerTest {
+  @BeforeEach
+  public void setup() {
+    Lox.hadError = false;
+  }
+
   @Test
   public void testUnaryOperators() {
     Scanner scanner = new Scanner("(){},.-+;*=<>/!");
@@ -71,7 +78,7 @@ public class ScannerTest {
   public void testNewLine() {
     Scanner scanner = new Scanner("\n\n\n");
     List<Token> tokens = scanner.scanTokens();
-    assertEquals(tokens.size(), 1);
+    assertEquals(1, tokens.size());
     assertEquals(TokenType.EOF, tokens.get(0).type);
     assertEquals(4, tokens.get(0).line);
   }
@@ -80,7 +87,7 @@ public class ScannerTest {
   public void testComment() {
     Scanner scanner = new Scanner("//This is a comment line which should be ignored\n");
     List<Token> tokens = scanner.scanTokens();
-    assertEquals(tokens.size(), 1);
+    assertEquals(1, tokens.size());
     assertEquals(TokenType.EOF, tokens.get(0).type);
     assertEquals(2, tokens.get(0).line);
   }
@@ -95,7 +102,7 @@ public class ScannerTest {
     Scanner scanner = new Scanner(sb.toString());
     List<Token> tokens = scanner.scanTokens();
     assertFalse(tokens.isEmpty());
-    assertEquals(tokens.get(tokens.size() - 1).type, TokenType.EOF);
+    assertEquals(TokenType.EOF, tokens.get(tokens.size() - 1).type);
     tokens.remove(tokens.size() - 1);
     for (Token token : tokens) {
       assertTrue(Scanner.KEY_WORDS.containsKey(token.lexeme));
@@ -112,7 +119,7 @@ public class ScannerTest {
     }
     Scanner scanner = new Scanner(sb.toString());
     List<Token> tokens = scanner.scanTokens();
-    assertEquals(tokens.size(), Scanner.KEY_WORDS.keySet().size() + 1);
+    assertEquals(tokens.size(), Scanner.KEY_WORDS.size() + 1);
     tokens.remove(tokens.size() - 1);
     for (Token token : tokens) {
       assertFalse(Scanner.KEY_WORDS.containsKey(token.lexeme));
@@ -145,7 +152,7 @@ public class ScannerTest {
     String code = "\"Hello World\nCrafting Interpreters!\"";
     Scanner scanner = new Scanner(code);
     List<Token> tokens = scanner.scanTokens();
-    assertEquals(tokens.size(), 2);
+    assertEquals(2, tokens.size());
     assertEquals(TokenType.STRING, tokens.get(0).type);
     assertEquals(code, tokens.get(0).lexeme);
 
@@ -202,7 +209,7 @@ public class ScannerTest {
   public void testMultilineComment() {
     Scanner scanner = new Scanner("/*/*/*//This is a valid\nmultiline comment*/*/*/");
     List<Token> tokens = scanner.scanTokens();
-    assertEquals(tokens.size(), 1);
+    assertEquals(1, tokens.size());
     assertEquals(TokenType.EOF, tokens.get(0).type);
     assertEquals(2, tokens.get(0).line);
     assertFalse(Lox.hadError);
