@@ -1,4 +1,4 @@
-package io.github.marcusmiao;
+package io.github.marcusmiao.lox;
 
 enum TokenType {
   // Single-character tokens.

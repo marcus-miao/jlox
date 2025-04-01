@@ -1,4 +1,4 @@
-package io.github.marcusmiao;
+package io.github.marcusmiao.lox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
